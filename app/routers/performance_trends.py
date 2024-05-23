@@ -11,7 +11,6 @@ router = APIRouter()
 def performance_trends(time_period: str = Query(..., description="The time period for analyzing performance trends, e.g., monthly, quarterly")):
    
     df = load_sales_data('data/sales_data.csv')
-    
     if time_period == "monthly":
         df['period'] = df['dated'].dt.to_period('M')
     elif time_period == "quarterly":
