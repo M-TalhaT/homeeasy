@@ -10,11 +10,9 @@ router = APIRouter()
 @router.get("/api/rep_performance")
 def rep_performance(rep_id: int = Query(...)):
     try:
-        # Load data
+
         df = load_sales_data('data/sales_data.csv')
         logging.info(f"Data loaded successfully. Data shape: {df.shape}")
-        
-        # Filter data for the specific representative
         rep_data = df[df['employee_id'] == rep_id]
         logging.info(f"Filtered data for rep_id {rep_id}. Data shape: {rep_data.shape}")
         
@@ -22,7 +20,6 @@ def rep_performance(rep_id: int = Query(...)):
             logging.error(f"Representative {rep_id} not found.")
             return {"error": "Representative not found"}
         
-        # Generate feedback using LLM
         prompt = f"Analyze the following sales data for representative {rep_id}: {rep_data.to_dict()}"
         logging.info(f"Prompt for LLM: {prompt}")
         
